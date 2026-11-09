@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contatti & Prenota Appuntamento — MeetingMe (Anthony Pepe)</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ground: #2e3440;
+      --surface: #3b4252;
+      --surface-warm: #434c5e;
+      --surface-hover: #4c566a;
+      --text: #eceff4;
+      --muted: #d8dee9;
+      --faint: #4c566a;
+      --aqua: #88c0d0;
+      --aqua-hover: #81a1c1;
+      --aqua-soft: rgba(136, 192, 208, 0.16);
+      --nord-green: #a3be8c;
+      --nord-green-soft: rgba(163, 190, 140, 0.16);
+      --nord-yellow: #ebcb8b;
+      --nord-red: #bf616a;
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background-color: var(--ground);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      scrollbar-gutter: stable;
+    }
+
+    body {
+      background-color: var(--ground);
+      background-image: 
+        radial-gradient(ellipse 70% 45% at 50% -5%, rgba(136, 192, 208, 0.12) 0%, rgba(129, 161, 193, 0.03) 50%, transparent 80%),
+        radial-gradient(circle at 85% 25%, rgba(163, 190, 140, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 15% 65%, rgba(136, 192, 208, 0.05) 0%, transparent 35%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Nav */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 68px;
+      background-color: rgba(46, 52, 64, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(236, 239, 244, 0.12);
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin-inline: auto;
+      padding-inline: 32px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: opacity 0.16s ease;
+    }
+
+    .brand-group:hover {
+      opacity: 0.85;
+    }
+
+    .brand-logo-img {
+      height: 32px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-desktop-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @media (max-width: 860px) {
+      .nav-desktop-links {
+        display: none;
+      }
+    }
+
+    .nav-desktop-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      transition: all 0.16s ease;
+      white-space: nowrap;
+    }
+
+    .nav-desktop-link:hover {
+      color: #fff;
+      background: rgba(236, 239, 244, 0.08);
+    }
+
+    .nav-desktop-link.is-active {
+      color: #fff;
+      background: rgba(136, 192, 208, 0.15);
+      border: 1px solid rgba(136, 192, 208, 0.35);
+      font-weight: 600;
+    }
+
+    .nav-cta-hub {
+      background: var(--aqua);
+      color: #2e3440;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 7px 16px;
+      border-radius: 9999px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+      box-shadow: 0 2px 10px rgba(136, 192, 208, 0.25);
+      white-space: nowrap;
+    }
+
+    .nav-cta-hub:hover {
+      background: var(--aqua-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(136, 192, 208, 0.35);
+    }
+
+    /* Language Selector */
+    .lang-selector-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .btn-lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 9999px;
+      background: rgba(46, 52, 64, 0.75);
+      border: 1px solid rgba(236, 239, 244, 0.16);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn-lang-toggle:hover {
+      background: var(--surface-warm);
+      border-color: rgba(136, 192, 208, 0.4);
+      color: #fff;
+    }
+
+    .btn-lang-toggle .caret-icon {
+      font-size: 10px;
+      transition: transform 0.18s ease;
+    }
+
+    .btn-lang-toggle[aria-expanded="true"] .caret-icon {
+      transform: rotate(180deg);
+    }
+
+    .lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 140px;
+      background: #2e3440;
+      border: 1px solid rgba(236, 239, 244, 0.16);
+      border-radius: 12px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+      padding: 6px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .lang-dropdown-menu.open {
+      display: block;
+    }
+
+    .lang-opt-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .lang-opt-btn:hover {
+      background: rgba(136, 192, 208, 0.15);
+      color: var(--aqua);
+    }
+
+    /* Main Container */
+    .page-main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .page-header {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 48px;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--aqua);
+      background: var(--aqua-soft);
+      border: 1px solid rgba(136, 192, 208, 0.3);
+      padding: 5px 14px;
+      border-radius: 9999px;
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .page-subtitle {
+      font-size: 1.08rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Centered Contact Form Card */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid rgba(236, 239, 244, 0.12);
+      border-radius: 18px;
+      padding: 38px 36px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      position: relative;
+      max-width: 760px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media (max-width: 640px) {
+      .form-card {
+        padding: 24px 20px;
+      }
+    }
+
+    .form-header {
+      margin-bottom: 24px;
+    }
+
+    .form-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .form-subtitle {
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .form-label span.req {
+      color: var(--nord-red);
+      margin-left: 2px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--ground);
+      border: 1px solid rgba(236, 239, 244, 0.14);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      padding: 10px 14px;
+      outline: none;
+      transition: all 0.16s ease;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--aqua);
+      box-shadow: 0 0 0 3px rgba(136, 192, 208, 0.18);
+      background: #272d37;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      background: var(--aqua);
+      color: #2e3440;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.18s ease;
+      box-shadow: 0 4px 16px rgba(136, 192, 208, 0.28);
+      margin-top: 6px;
+    }
+
+    .form-submit-btn:hover {
+      background: var(--aqua-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(136, 192, 208, 0.38);
+    }
+
+    .form-submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-alt-email {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .form-alt-email a {
+      color: var(--aqua);
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    /* Success / Feedback Overlay */
+    .feedback-banner {
+      display: none;
+      padding: 24px;
+      background: rgba(163, 190, 140, 0.12);
+      border: 1px solid rgba(163, 190, 140, 0.4);
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .feedback-banner.is-active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-icon {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .feedback-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--nord-green);
+      margin-bottom: 6px;
+    }
+
+    .feedback-text {
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .btn-mailto-backup {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface-warm);
+      color: var(--text);
+      border: 1px solid rgba(236, 239, 244, 0.15);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-mailto-backup:hover {
+      background: var(--surface-hover);
+      color: #fff;
+    }
+
+    /* Site Footer */
+    .site-footer {
+      background-color: var(--surface);
+      padding: 48px 0 64px;
+      margin-top: 60px;
+      border-top: 1px solid rgba(236, 239, 244, 0.1);
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin-inline: auto;
+      padding-inline: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .credits {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="site-nav">
+    <div class="nav-container">
+      <a href="index.html" class="brand-group" title="MeetingMe Home">
+        <img src="logo.png" alt="MeetingMe" class="brand-logo-img" />
+      </a>
+
+      <!-- Desktop Direct Links -->
+      <nav class="nav-desktop-links" aria-label="Navigazione principale">
+        <a href="index.html" class="nav-desktop-link">Home & Funzionalità</a>
+        <a href="pricing.html" class="nav-desktop-link">Piani & Prezzi</a>
+        <a href="contact.html" class="nav-desktop-link is-active">Contatti & Appuntamento</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Language Selector -->
+        <div class="lang-selector-wrapper">
+          <button id="btn-lang-toggle" class="btn-lang-toggle" aria-expanded="false" aria-haspopup="true" aria-label="Cambia Lingua" title="Cambia lingua">
+            <span id="nav-trigger-lang-code">🇮🇹 IT</span>
+            <span class="caret-icon" aria-hidden="true">▾</span>
+          </button>
+          <div id="nav-lang-dropdown" class="lang-dropdown-menu" role="menu">
+            <button type="button" class="lang-opt-btn" data-lang="it" role="menuitem">
+              <span>🇮🇹</span> <span>Italiano</span>
+            </button>
+            <button type="button" class="lang-opt-btn" data-lang="en" role="menuitem">
+              <span>🇬🇧</span> <span>English</span>
+            </button>
+            <button type="button" class="lang-opt-btn" data-lang="es" role="menuitem">
+              <span>🇪🇸</span> <span>Español</span>
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page-main">
+    <div class="page-header">
+      <h1 class="page-title">Parliamo del tuo Progetto & Prenota un Appuntamento</h1>
+    </div>
+
+    <!-- Centered Form Container -->
+    <section class="form-card">
+      <div class="form-header">
+          <h2 class="form-title">Modulo di Contatto & Richiesta Call</h2>
+          <p class="form-subtitle">Scegli la data e l'orario preferito per la call. Riceverai conferma all'indirizzo indicato.</p>
+        </div>
+
+        <!-- Success Banner -->
+        <div class="feedback-banner" id="contact-feedback">
+          <div class="feedback-icon">🎉</div>
+          <div class="feedback-title">Richiesta Inviata con Successo!</div>
+          <div class="feedback-text" id="feedback-details">
+            Grazie per avermi contattato. Ho registrato la tua richiesta per Anthony Pepe (<strong>anthonypepe2004@gmail.com</strong>) e ti risponderò a brevissimo.
+          </div>
+          <a href="#" class="btn-mailto-backup" id="btn-mailto-confirm" target="_blank">
+            ✉️ Apri anche nel tuo client di posta predefinito
+          </a>
+        </div>
+
+        <form id="contact-appointment-form">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="contact-name">Nome e Cognome <span class="req">*</span></label>
+              <input type="text" id="contact-name" name="name" class="form-input" placeholder="es. Marco Rossi" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-email">Email Aziendale o Personale <span class="req">*</span></label>
+              <input type="email" id="contact-email" name="email" class="form-input" placeholder="marco.rossi@azienda.it" required />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="contact-company">Azienda / Organizzazione</label>
+              <input type="text" id="contact-company" name="company" class="form-input" placeholder="es. TechCorp S.r.l." />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-type">Motivo della Richiesta</label>
+              <select id="contact-type" name="request_type" class="form-select">
+                <option value="appointment" selected>🎯 Prenotare una Call Esplorativa / Demo</option>
+                <option value="enterprise_license">🏢 Preventivo / Licenza Enterprise su Misura</option>
+                <option value="consulting">💼 Consulenza Tecnica & Setup Rete LAN</option>
+                <option value="support">🛠️ Supporto Licenza & Configurazione</option>
+                <option value="other">💡 Altro / Partnership</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="contact-date">Data Preferita per l'Appuntamento</label>
+              <input type="date" id="contact-date" name="preferred_date" class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-time">Fascia Oraria Preferita</label>
+              <select id="contact-time" name="preferred_time" class="form-select">
+                <option value="Mattina (09:30 - 12:30)">Mattina (09:30 - 12:30)</option>
+                <option value="Primo Pomeriggio (14:00 - 16:30)">Primo Pomeriggio (14:00 - 16:30)</option>
+                <option value="Tardo Pomeriggio (17:00 - 19:30)">Tardo Pomeriggio (17:00 - 19:30)</option>
+                <option value="Qualsiasi orario">Flessibile / Qualsiasi orario</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-platform">Piattaforma Preferita per l'Incontro</label>
+            <select id="contact-platform" name="platform" class="form-select">
+              <option value="Google Meet" selected>Google Meet</option>
+              <option value="Microsoft Teams">Microsoft Teams</option>
+              <option value="MeetingMe LAN Room">MeetingMe LAN Room (Live Demo)</option>
+              <option value="Telefono">Contatto Telefonico Diretto</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contact-message">Messaggio & Dettagli <span class="req">*</span></label>
+            <textarea id="contact-message" name="message" class="form-textarea" placeholder="Descrivi brevemente le tue esigenze, le dimensioni del team o i requisiti della tua rete aziendale..." required></textarea>
+          </div>
+
+          <button type="submit" class="form-submit-btn" id="btn-submit-contact">
+            <span>🚀 Invia Richiesta & Prenota Appuntamento</span>
+          </button>
+
+          <div class="form-alt-email">
+            Oppure preferisci scrivermi subito dalla tua casella? <a href="mailto:anthonypepe2004@gmail.com" id="link-direct-mailto">Invia una mail ad anthonypepe2004@gmail.com</a>
+          </div>
+        </form>
+      </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top-row">
+        <div class="footer-left">
+          <img src="logo.png" alt="MeetingMe Logo" style="height: 24px; width: auto;" />
+          <strong>MeetingMe</strong>
+          <span>&middot; Zero Data Leakage LAN Scrum Hub</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <a href="pricing.html" style="color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;">Prezzi</a>
+          <a href="contact.html" style="color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;">Contatti</a>
+          <a href="https://github.com/apepe11" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 7px; text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 500; transition: color 150ms;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">
+            <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style="display: inline-block; vertical-align: middle;">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            </svg>
+            Powered by <strong style="color: var(--text);">Antonio Pepe</strong>
+          </a>
+        </div>
+      </div>
+
+      <p class="credits" style="margin: 0; padding-top: 10px; border-top: 1px solid rgba(236, 239, 244, 0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+        <span>&copy; 2026 MeetingMe &middot; Tutti i diritti riservati.</span>
+        <span>Email: <a href="mailto:anthonypepe2004@gmail.com" style="color: var(--aqua); text-decoration: none;">anthonypepe2004@gmail.com</a></span>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Set default date to tomorrow
+    const dateInput = document.getElementById('contact-date');
+    if (dateInput) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const yyyy = tomorrow.getFullYear();
+      const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+      const dd = String(tomorrow.getDate()).padStart(2, '0');
+      dateInput.min = `${yyyy}-${mm}-${dd}`;
+      dateInput.value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Handle Form Submit
+    const form = document.getElementById('contact-appointment-form');
+    const feedbackBanner = document.getElementById('contact-feedback');
+    const feedbackDetails = document.getElementById('feedback-details');
+    const btnMailtoConfirm = document.getElementById('btn-mailto-confirm');
+    const submitBtn = document.getElementById('btn-submit-contact');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) return;
+
+      const name = document.getElementById('contact-name').value.trim();
+      const email = document.getElementById('contact-email').value.trim();
+      const company = document.getElementById('contact-company').value.trim();
+      const requestType = document.getElementById('contact-type').value;
+      const preferredDate = document.getElementById('contact-date').value;
+      const preferredTime = document.getElementById('contact-time').value;
+      const platform = document.getElementById('contact-platform').value;
+      const message = document.getElementById('contact-message').value.trim();
+
+      const payload = {
+        name,
+        email,
+        company,
+        request_type: requestType,
+        preferred_date: preferredDate,
+        preferred_time: preferredTime,
+        platform,
+        message
+      };
+
+      // Prepare mailto backup link
+      const mailSubject = encodeURIComponent(`[MeetingMe Richiesta Appuntamento] ${name} (${company || 'Privato'})`);
+      const mailBody = encodeURIComponent(
+        `Ciao Anthony,\n\nVorrei fissare un appuntamento/call per MeetingMe.\n\n` +
+        `Dettagli:\n` +
+        `- Nome: ${name}\n` +
+        `- Email: ${email}\n` +
+        `- Azienda: ${company || 'N/A'}\n` +
+        `- Motivo: ${requestType}\n` +
+        `- Data preferita: ${preferredDate}\n` +
+        `- Fascia oraria: ${preferredTime}\n` +
+        `- Piattaforma: ${platform}\n\n` +
+        `Messaggio:\n${message}\n\n` +
+        `A presto,\n${name}`
+      );
+      const mailtoUrl = `mailto:anthonypepe2004@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+
+      if (btnMailtoConfirm) {
+        btnMailtoConfirm.href = mailtoUrl;
+      }
+
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>⏳ Invio in corso...</span>';
+
+      try {
+        const response = await fetch(`http://${window.location.hostname || '127.0.0.1'}:8000/api/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          form.style.display = 'none';
+          feedbackBanner.classList.add('is-active');
+          feedbackDetails.innerHTML = `
+            Gentile <strong>${escapeHtml(name)}</strong>, la tua richiesta è stata registrata con successo.<br />
+            Data richiesta: <strong>${escapeHtml(preferredDate)}</strong> (${escapeHtml(preferredTime)}) su <strong>${escapeHtml(platform)}</strong>.<br />
+            Ti contatterò personalmente all'indirizzo <strong>${escapeHtml(email)}</strong> entro poche ore.
+          `;
+        } else {
+          // If server returns error, fallback gracefully to client mailto
+          window.location.href = mailtoUrl;
+        }
+      } catch (err) {
+        // Fallback directly to mailto if offline or standalone
+        console.warn('Backend contact API unavailable, launching mailto client:', err);
+        form.style.display = 'none';
+        feedbackBanner.classList.add('is-active');
+        feedbackDetails.innerHTML = `
+          Grazie <strong>${escapeHtml(name)}</strong>! Clicca qui sotto per finalizzare l'invio della richiesta direttamente dal tuo client di posta.
+        `;
+        window.location.href = mailtoUrl;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      }
+    });
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // --- LANGUAGE SELECTOR ---
+    const btnLangToggle = document.getElementById('btn-lang-toggle');
+    const navLangDropdown = document.getElementById('nav-lang-dropdown');
+    const triggerLangEl = document.getElementById('nav-trigger-lang-code');
+
+    const langFlags = { it: '🇮🇹 IT', en: '🇬🇧 EN', es: '🇪🇸 ES' };
+    const savedLang = localStorage.getItem('meetingme_lang') || 'it';
+    if (triggerLangEl && langFlags[savedLang]) {
+      triggerLangEl.textContent = langFlags[savedLang];
+    }
+
+    function toggleLangDropdown(e) {
+      if (e) e.stopPropagation();
+      const isOpen = navLangDropdown?.classList.toggle('open');
+      btnLangToggle?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    function closeLangDropdown() {
+      navLangDropdown?.classList.remove('open');
+      btnLangToggle?.setAttribute('aria-expanded', 'false');
+    }
+
+    btnLangToggle?.addEventListener('click', toggleLangDropdown);
+
+    document.querySelectorAll('.lang-opt-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selected = btn.getAttribute('data-lang');
+        if (selected && langFlags[selected]) {
+          localStorage.setItem('meetingme_lang', selected);
+          if (triggerLangEl) triggerLangEl.textContent = langFlags[selected];
+        }
+        closeLangDropdown();
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (navLangDropdown?.classList.contains('open') && !btnLangToggle?.contains(e.target) && !navLangDropdown.contains(e.target)) {
+        closeLangDropdown();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLangDropdown?.classList.contains('open')) {
+        closeLangDropdown();
+      }
+    });
+  </script>
+</body>
+</html>

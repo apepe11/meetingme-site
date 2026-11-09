@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Piani & Prezzi Trasparenti — MeetingMe</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ground: #2e3440;
+      --surface: #3b4252;
+      --surface-warm: #434c5e;
+      --surface-hover: #4c566a;
+      --text: #eceff4;
+      --muted: #d8dee9;
+      --faint: #4c566a;
+      --aqua: #88c0d0;
+      --aqua-hover: #81a1c1;
+      --aqua-soft: rgba(136, 192, 208, 0.16);
+      --nord-green: #a3be8c;
+      --nord-green-soft: rgba(163, 190, 140, 0.16);
+      --nord-yellow: #ebcb8b;
+      --nord-red: #bf616a;
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background-color: var(--ground);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      scrollbar-gutter: stable;
+    }
+
+    body {
+      background-color: var(--ground);
+      background-image: 
+        radial-gradient(ellipse 70% 45% at 50% -5%, rgba(136, 192, 208, 0.12) 0%, rgba(129, 161, 193, 0.03) 50%, transparent 80%),
+        radial-gradient(circle at 85% 25%, rgba(163, 190, 140, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 15% 65%, rgba(136, 192, 208, 0.05) 0%, transparent 35%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Nav */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 68px;
+      background-color: rgba(46, 52, 64, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(236, 239, 244, 0.12);
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin-inline: auto;
+      padding-inline: 32px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: opacity 0.16s ease;
+    }
+
+    .brand-group:hover {
+      opacity: 0.85;
+    }
+
+    .brand-logo-img {
+      height: 32px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-desktop-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @media (max-width: 860px) {
+      .nav-desktop-links {
+        display: none;
+      }
+    }
+
+    .nav-desktop-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      transition: all 0.16s ease;
+      white-space: nowrap;
+    }
+
+    .nav-desktop-link:hover {
+      color: #fff;
+      background: rgba(236, 239, 244, 0.08);
+    }
+
+    .nav-desktop-link.is-active {
+      color: #fff;
+      background: rgba(136, 192, 208, 0.15);
+      border: 1px solid rgba(136, 192, 208, 0.35);
+      font-weight: 600;
+    }
+
+    .nav-cta-hub {
+      background: var(--aqua);
+      color: #2e3440;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 7px 16px;
+      border-radius: 9999px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+      box-shadow: 0 2px 10px rgba(136, 192, 208, 0.25);
+      white-space: nowrap;
+    }
+
+    .nav-cta-hub:hover {
+      background: var(--aqua-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(136, 192, 208, 0.35);
+    }
+
+    /* Language Selector */
+    .lang-selector-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .btn-lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 9999px;
+      background: rgba(46, 52, 64, 0.75);
+      border: 1px solid rgba(236, 239, 244, 0.16);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn-lang-toggle:hover {
+      background: var(--surface-warm);
+      border-color: rgba(136, 192, 208, 0.4);
+      color: #fff;
+    }
+
+    .btn-lang-toggle .caret-icon {
+      font-size: 10px;
+      transition: transform 0.18s ease;
+    }
+
+    .btn-lang-toggle[aria-expanded="true"] .caret-icon {
+      transform: rotate(180deg);
+    }
+
+    .lang-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 140px;
+      background: #2e3440;
+      border: 1px solid rgba(236, 239, 244, 0.16);
+      border-radius: 12px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+      padding: 6px;
+      z-index: 1000;
+      display: none;
+    }
+
+    .lang-dropdown-menu.open {
+      display: block;
+    }
+
+    .lang-opt-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .lang-opt-btn:hover {
+      background: rgba(136, 192, 208, 0.15);
+      color: var(--aqua);
+    }
+
+    /* Main Container */
+    .page-main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .page-header {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 36px;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--nord-green);
+      background: var(--nord-green-soft);
+      border: 1px solid rgba(163, 190, 140, 0.3);
+      padding: 5px 14px;
+      border-radius: 9999px;
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-size: clamp(2.1rem, 4.2vw, 2.9rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Billing Toggle */
+    .billing-toggle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 32px 0 48px;
+    }
+
+    .billing-btn-group {
+      display: inline-flex;
+      background: var(--surface);
+      border: 1px solid rgba(236, 239, 244, 0.12);
+      border-radius: 9999px;
+      padding: 4px;
+    }
+
+    .toggle-pill {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .toggle-pill.is-active {
+      background: var(--aqua);
+      color: #2e3440;
+      box-shadow: 0 2px 8px rgba(136, 192, 208, 0.35);
+    }
+
+    .discount-tag {
+      background: rgba(163, 190, 140, 0.18);
+      color: var(--nord-green);
+      border: 1px solid rgba(163, 190, 140, 0.35);
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    /* Pricing Grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-bottom: 64px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 960px) {
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+        margin-inline: auto;
+      }
+    }
+
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid rgba(236, 239, 244, 0.12);
+      border-radius: 18px;
+      padding: 34px 28px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(136, 192, 208, 0.4);
+    }
+
+    .pricing-card.featured {
+      background: linear-gradient(180deg, #3f4757 0%, var(--surface) 100%);
+      border: 2px solid var(--aqua);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 24px rgba(136, 192, 208, 0.15);
+      transform: scale(1.03);
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.03) translateY(-3px);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--aqua);
+      color: #2e3440;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      box-shadow: 0 4px 12px rgba(136, 192, 208, 0.4);
+    }
+
+    .card-tier-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .card-tier-desc {
+      font-size: 13.5px;
+      color: var(--muted);
+      min-height: 42px;
+      margin-bottom: 20px;
+      line-height: 1.45;
+    }
+
+    .price-box {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(236, 239, 244, 0.09);
+      margin-bottom: 24px;
+    }
+
+    .price-amount {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .price-period {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      margin-bottom: 32px;
+      flex: 1;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .feature-check {
+      color: var(--nord-green);
+      font-weight: 800;
+      flex-shrink: 0;
+      font-size: 14px;
+    }
+
+    .feature-check.cross {
+      color: var(--muted);
+      opacity: 0.45;
+    }
+
+    .card-btn {
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.16s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-secondary {
+      background: var(--surface-warm);
+      color: var(--text);
+      border-color: rgba(236, 239, 244, 0.16);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-hover);
+      color: #fff;
+    }
+
+    .btn-primary {
+      background: var(--aqua);
+      color: #2e3440;
+      box-shadow: 0 4px 14px rgba(136, 192, 208, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--aqua-hover);
+      box-shadow: 0 6px 18px rgba(136, 192, 208, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* Comparison Table Section */
+    .comparison-section {
+      background: var(--surface);
+      border: 1px solid rgba(236, 239, 244, 0.12);
+      border-radius: 18px;
+      padding: 40px 32px;
+      margin-bottom: 64px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+    }
+
+    .comp-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .comp-subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .comp-table-wrap {
+      overflow-x: auto;
+    }
+
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .comp-table th, .comp-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(236, 239, 244, 0.08);
+    }
+
+    .comp-table th {
+      font-weight: 700;
+      color: #fff;
+      background: rgba(46, 52, 64, 0.5);
+    }
+
+    .comp-table th.highlight, .comp-table td.highlight {
+      background: rgba(136, 192, 208, 0.08);
+      font-weight: 600;
+      color: var(--aqua);
+    }
+
+    /* FAQ Grid */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 768px) {
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .faq-card {
+      background: var(--surface);
+      border: 1px solid rgba(236, 239, 244, 0.1);
+      border-radius: 12px;
+      padding: 24px 22px;
+    }
+
+    .faq-q {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .faq-a {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* Enterprise Banner */
+    .enterprise-callout {
+      background: linear-gradient(135deg, rgba(136, 192, 208, 0.12), rgba(163, 190, 140, 0.08));
+      border: 1px solid rgba(136, 192, 208, 0.3);
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .enterprise-callout h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .enterprise-callout p {
+      max-width: 620px;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Site Footer */
+    .site-footer {
+      background-color: var(--surface);
+      padding: 48px 0 64px;
+      margin-top: 60px;
+      border-top: 1px solid rgba(236, 239, 244, 0.1);
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin-inline: auto;
+      padding-inline: 24px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .credits {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .credits a {
+      color: var(--text);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="site-nav">
+    <div class="nav-container">
+      <a href="index.html" class="brand-group" title="MeetingMe Home">
+        <img src="logo.png" alt="MeetingMe" class="brand-logo-img" />
+      </a>
+
+      <!-- Desktop Direct Links -->
+      <nav class="nav-desktop-links" aria-label="Navigazione principale">
+        <a href="index.html" class="nav-desktop-link">Home & Funzionalità</a>
+        <a href="pricing.html" class="nav-desktop-link is-active">Piani & Prezzi</a>
+        <a href="contact.html" class="nav-desktop-link">Contatti & Appuntamento</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Language Selector -->
+        <div class="lang-selector-wrapper">
+          <button id="btn-lang-toggle" class="btn-lang-toggle" aria-expanded="false" aria-haspopup="true" aria-label="Cambia Lingua" title="Cambia lingua">
+            <span id="nav-trigger-lang-code">🇮🇹 IT</span>
+            <span class="caret-icon" aria-hidden="true">▾</span>
+          </button>
+          <div id="nav-lang-dropdown" class="lang-dropdown-menu" role="menu">
+            <button type="button" class="lang-opt-btn" data-lang="it" role="menuitem">
+              <span>🇮🇹</span> <span>Italiano</span>
+            </button>
+            <button type="button" class="lang-opt-btn" data-lang="en" role="menuitem">
+              <span>🇬🇧</span> <span>English</span>
+            </button>
+            <button type="button" class="lang-opt-btn" data-lang="es" role="menuitem">
+              <span>🇪🇸</span> <span>Español</span>
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page-main">
+    <div class="page-header">
+      <div class="pill-badge">💳 Nessun Costo Nascosto & Zero Cloud Lock-In</div>
+      <h1 class="page-title">Piani Trasparenti. Scegli la Soluzione Ideale per il Tuo Team</h1>
+      <p class="page-subtitle">
+        Software standalone progettato specificamente per la rete locale aziendale. Nessun dato inviato a server esterni, zero costi per singolo utente e massima riservatezza garantita.
+      </p>
+
+      <!-- Billing Toggle -->
+      <div class="billing-toggle-wrap">
+        <div class="billing-btn-group">
+          <button type="button" class="toggle-pill is-active" id="btn-billing-monthly">Mensile</button>
+          <button type="button" class="toggle-pill" id="btn-billing-annual">Annuale</button>
+        </div>
+        <span class="discount-tag">Risparmi 2 Mesi (-20%)</span>
+      </div>
+    </div>
+
+    <!-- Pricing Cards Grid -->
+    <div class="pricing-grid">
+      <!-- 1. Community Edition -->
+      <div class="pricing-card">
+        <div class="card-tier-name">Community</div>
+        <div class="card-tier-desc">Perfetto per singoli team e startup che cercano uno strumento standup locale essenziale.</div>
+
+        <div class="price-box">
+          <span class="price-amount">0€</span>
+          <span class="price-period">/ per sempre</span>
+        </div>
+
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-check">✓</span> 1 Stanza attiva contemporanea</li>
+          <li class="feature-item"><span class="feature-check">✓</span> Fino a 10 partecipanti su rete locale</li>
+          <li class="feature-item"><span class="feature-check">✓</span> Timer circolare Scrum Standup</li>
+          <li class="feature-item"><span class="feature-check">✓</span> Visualizzatore PDF e Stage diapositive</li>
+          <li class="feature-item"><span class="feature-check">✓</span> Lavagna Kanban To Do / In Progress / Done</li>
+          <li class="feature-item"><span class="feature-check">✓</span> 100% Offline e Air-Gapped</li>
+          <li class="feature-item"><span class="feature-check cross">✕</span> Planning Poker con carte coperte</li>
+          <li class="feature-item"><span class="feature-check cross">✕</span> Registrazione schermo/audio locale</li>
+        </ul>
+
+        <a href="contact.html" class="card-btn btn-secondary">
+          Scarica & Avvia Subito
+        </a>
+      </div>
+
+      <!-- 2. Professional Edition (Featured) -->
+      <div class="pricing-card featured">
+        <div class="featured-badge">Consigliato</div>
+        <div class="card-tier-name">Professional</div>
+        <div class="card-tier-desc">Per team di sviluppo, Scrum Master e aziende che richiedono stanze e cerimonie complete.</div>
+
+        <div class="price-box">
+          <span class="price-amount" id="pro-price-display">50€</span>
+          <span class="price-period" id="pro-period-display">/ mese</span>
+        </div>
+
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Stanze e meeting illimitati</strong></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Partecipanti illimitati</strong> nella subnet LAN</li>
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Planning Poker Live:</strong> stima a carte coperte con calcolo automatico media, mediana e consenso</li>
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Tutte le Cerimonie:</strong> Daily, Planning, Review, Retrospective (board 3 colonne) e General Sync</li>
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Live Screen Sharing:</strong> trasmissione schermo P2P a zero latenza</li>
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Registrazione Locale:</strong> audio microfono e schermo esportati in WebM/MP4</li>
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Pacchetto ZIP completo:</strong> verbale meeting, note individuali e allegati</li>
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Cache Licenza Offline 30gg</strong></li>
+        </ul>
+
+        <a href="contact.html" class="card-btn btn-primary" id="btn-activate-pro">
+          Attiva Licenza Pro (50€/m)
+        </a>
+      </div>
+
+      <!-- 3. Enterprise Air-Gapped -->
+      <div class="pricing-card">
+        <div class="card-tier-name">Enterprise Air-Gap</div>
+        <div class="card-tier-desc">Per banche, difesa, sanità e CDA con rigidi vincoli di conformità e multi-subnet.</div>
+
+        <div class="price-box">
+          <span class="price-amount" style="font-size: 2.1rem;">Su Misura</span>
+          <span class="price-period">/ perpetuo o canone</span>
+        </div>
+
+        <ul class="feature-list">
+          <li class="feature-item"><span class="feature-check">✓</span> Tutto ciò che è incluso nel piano Pro</li>
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Licenza Standalone Perpetua</strong> (senza ping web)</li>
+          <li class="feature-item"><span class="feature-check">✓</span> Supporto <strong>Multi-VLAN & Subnet routing</strong></li>
+          <li class="feature-item"><span class="feature-check">✓</span> <strong>Branding & Ruoli personalizzati</strong> aziendali</li>
+          <li class="feature-item"><span class="feature-check">✓</span> Certificazione formale Zero Egress per audit GDPR</li>
+          <li class="feature-item"><span class="feature-check">✓</span> Sessione di setup 1-to-1 con Anthony Pepe</li>
+          <li class="feature-item"><span class="feature-check">✓</span> Canale prioritario di assistenza dedicato</li>
+        </ul>
+
+        <a href="contact.html" class="card-btn btn-secondary">
+          Richiedi Preventivo Enterprise
+        </a>
+      </div>
+    </div>
+
+    <!-- Feature Comparison Table -->
+    <section class="comparison-section">
+      <h2 class="comp-title">Matrice Comparativa Dettagliata</h2>
+      <p class="comp-subtitle">Confronta le caratteristiche e scegli il livello di autonomia ideale per la tua organizzazione.</p>
+
+      <div class="comp-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th style="width: 38%;">Funzionalità</th>
+              <th style="width: 20%;">Community</th>
+              <th style="width: 22%;" class="highlight">Professional</th>
+              <th style="width: 20%;">Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Prezzo</td>
+              <td>0€ / gratuito</td>
+              <td class="highlight">50€ / mese</td>
+              <td>Preventivo su misura</td>
+            </tr>
+            <tr>
+              <td>Stanze e Riunioni Simultanee</td>
+              <td>1 stanza attiva</td>
+              <td class="highlight">Illimitate</td>
+              <td>Illimitate</td>
+            </tr>
+            <tr>
+              <td>Partecipanti Massimi</td>
+              <td>10 per sala</td>
+              <td class="highlight">Illimitati (subnet LAN)</td>
+              <td>Illimitati (multi-VLAN)</td>
+            </tr>
+            <tr>
+              <td>Cerimonie Scrum Supportate</td>
+              <td>Solo Daily Standup</td>
+              <td class="highlight">Daily, Planning, Retro, Review, Sync</td>
+              <td>Tutte + Template Custom</td>
+            </tr>
+            <tr>
+              <td>Planning Poker & Consenso Team</td>
+              <td>✕</td>
+              <td class="highlight">✓ (Fibonacci, T-Shirt, Yes/No)</td>
+              <td>✓ (Scale personalizzabili)</td>
+            </tr>
+            <tr>
+              <td>Live Screen Sharing Presentatore</td>
+              <td>✕</td>
+              <td class="highlight">✓ (WebRTC P2P locale)</td>
+              <td>✓ (Hardware Acceleration)</td>
+            </tr>
+            <tr>
+              <td>Registrazione Riunione Schermo/Audio</td>
+              <td>✕</td>
+              <td class="highlight">✓ (Salvataggio in locale)</td>
+              <td>✓ (Archivio cifrato)</td>
+            </tr>
+            <tr>
+              <td>Verbali PDF & Export ZIP</td>
+              <td>Base</td>
+              <td class="highlight">Completo di note e allegati</td>
+              <td>Branded con logo aziendale</td>
+            </tr>
+            <tr>
+              <td>Funzionamento 100% Offline</td>
+              <td>✓</td>
+              <td class="highlight">✓ (con cache Gist 30gg)</td>
+              <td>✓ (Air-gap perpetuo)</td>
+            </tr>
+            <tr>
+              <td>Supporto & Onboarding Dedicato</td>
+              <td>Community Forum</td>
+              <td class="highlight">Email entro 24h</td>
+              <td>1-to-1 con Anthony Pepe</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <div style="text-align: center; margin-bottom: 28px;">
+      <h2 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 8px;">Domande Frequenti sui Prezzi</h2>
+      <p style="color: var(--muted); font-size: 14px;">Tutto ciò che devi sapere su licenze, attivazioni e fatturazione.</p>
+    </div>
+
+    <div class="faq-grid">
+      <div class="faq-card">
+        <h3 class="faq-q">Come viene attivata la licenza Professional?</h3>
+        <p class="faq-a">
+          Dopo la richiesta, ricevi una chiave di licenza ufficiale crittografata (formato <code>MM-XXXX-XXXX-XXXX</code>). Basta inserirla nella schermata iniziale o nella Console Admin per sbloccare istantaneamente l'intero sistema.
+        </p>
+      </div>
+
+      <div class="faq-card">
+        <h3 class="faq-q">Cosa succede se la rete locale non ha accesso a Internet?</h3>
+        <p class="faq-a">
+          MeetingMe verifica la chiave tramite GitHub Gist pubblico e conserva la validità in cache locale protetta per 30 giorni. Per ambienti rigorosamente air-gapped al 100% senza alcun collegamento web, il piano Enterprise include chiavi offline perpetue.
+        </p>
+      </div>
+
+      <div class="faq-card">
+        <h3 class="faq-q">Posso dedurre l'acquisto e ricevere fattura?</h3>
+        <p class="faq-a">
+          Certamente. Viene emessa regolare fattura commerciale intestata alla tua azienda con partita IVA o codice fiscale.
+        </p>
+      </div>
+
+      <div class="faq-card">
+        <h3 class="faq-q">Esiste una garanzia di rimborso?</h3>
+        <p class="faq-a">
+          Offriamo 14 giorni di garanzia soddisfatti o rimborsati al 100%. Se il software non si adatta perfettamente alle esigenze del tuo team, riceverai il rimborso integrale senza domande.
+        </p>
+      </div>
+    </div>
+
+    <!-- Enterprise Banner -->
+    <div class="enterprise-callout">
+      <h3>Hai esigenze particolari o infrastrutture complesse?</h3>
+      <p>
+        Parla direttamente con Anthony Pepe. Posso predisporre un'offerta su misura, una sessione di dimostrazione tecnica con il tuo team o una configurazione PoC dedicata.
+      </p>
+      <a href="contact.html" class="card-btn btn-primary" style="max-width: 280px;">
+        📅 Prenota un Appuntamento Diretto
+      </a>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top-row">
+        <div class="footer-left">
+          <img src="logo.png" alt="MeetingMe Logo" style="height: 24px; width: auto;" />
+          <strong>MeetingMe</strong>
+          <span>&middot; Zero Data Leakage LAN Scrum Hub</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+          <a href="pricing.html" style="color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;">Prezzi</a>
+          <a href="contact.html" style="color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;">Contatti</a>
+          <a href="https://github.com/apepe11" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 7px; text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 500; transition: color 150ms;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">
+            <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style="display: inline-block; vertical-align: middle;">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            </svg>
+            Powered by <strong style="color: var(--text);">Antonio Pepe</strong>
+          </a>
+        </div>
+      </div>
+
+      <p class="credits" style="margin: 0; padding-top: 10px; border-top: 1px solid rgba(236, 239, 244, 0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+        <span>&copy; 2026 MeetingMe &middot; Tutti i diritti riservati.</span>
+        <span>Email: <a href="mailto:anthonypepe2004@gmail.com" style="color: var(--aqua); text-decoration: none;">anthonypepe2004@gmail.com</a></span>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Monthly / Annual toggle
+    const btnMonthly = document.getElementById('btn-billing-monthly');
+    const btnAnnual = document.getElementById('btn-billing-annual');
+    const priceDisplay = document.getElementById('pro-price-display');
+    const periodDisplay = document.getElementById('pro-period-display');
+
+    btnMonthly?.addEventListener('click', () => {
+      btnMonthly.classList.add('is-active');
+      btnAnnual?.classList.remove('is-active');
+      if (priceDisplay) priceDisplay.textContent = '50€';
+      if (periodDisplay) periodDisplay.textContent = '/ mese';
+    });
+
+    btnAnnual?.addEventListener('click', () => {
+      btnAnnual.classList.add('is-active');
+      btnMonthly?.classList.remove('is-active');
+      if (priceDisplay) priceDisplay.textContent = '40€';
+      if (periodDisplay) periodDisplay.textContent = '/ mese (fatturati 480€/anno)';
+    });
+
+    // --- LANGUAGE SELECTOR ---
+    const btnLangToggle = document.getElementById('btn-lang-toggle');
+    const navLangDropdown = document.getElementById('nav-lang-dropdown');
+    const triggerLangEl = document.getElementById('nav-trigger-lang-code');
+
+    const langFlags = { it: '🇮🇹 IT', en: '🇬🇧 EN', es: '🇪🇸 ES' };
+    const savedLang = localStorage.getItem('meetingme_lang') || 'it';
+    if (triggerLangEl && langFlags[savedLang]) {
+      triggerLangEl.textContent = langFlags[savedLang];
+    }
+
+    function toggleLangDropdown(e) {
+      if (e) e.stopPropagation();
+      const isOpen = navLangDropdown?.classList.toggle('open');
+      btnLangToggle?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    function closeLangDropdown() {
+      navLangDropdown?.classList.remove('open');
+      btnLangToggle?.setAttribute('aria-expanded', 'false');
+    }
+
+    btnLangToggle?.addEventListener('click', toggleLangDropdown);
+
+    document.querySelectorAll('.lang-opt-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selected = btn.getAttribute('data-lang');
+        if (selected && langFlags[selected]) {
+          localStorage.setItem('meetingme_lang', selected);
+          if (triggerLangEl) triggerLangEl.textContent = langFlags[selected];
+        }
+        closeLangDropdown();
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (navLangDropdown?.classList.contains('open') && !btnLangToggle?.contains(e.target) && !navLangDropdown.contains(e.target)) {
+        closeLangDropdown();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLangDropdown?.classList.contains('open')) {
+        closeLangDropdown();
+      }
+    });
+  </script>
+</body>
+</html>
