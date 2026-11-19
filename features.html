@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Funzionalità — MeetingMe</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ground: #2e3440;
+      --surface: #3b4252;
+      --surface-warm: #434c5e;
+      --surface-hover: #4c566a;
+      --text: #eceff4;
+      --muted: #d8dee9;
+      --faint: #4c566a;
+      --aqua: #88c0d0;
+      --aqua-hover: #81a1c1;
+      --aqua-soft: rgba(136, 192, 208, 0.16);
+      --nord-green: #a3be8c;
+      --nord-green-soft: rgba(163, 190, 140, 0.16);
+      --nord-yellow: #ebcb8b;
+      --nord-yellow-soft: rgba(235, 203, 139, 0.15);
+      --nord-purple: #b48ead;
+      --nord-purple-soft: rgba(180, 142, 173, 0.16);
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background-color: var(--ground);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      scrollbar-gutter: stable;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--ground);
+      background-image:
+        radial-gradient(ellipse 70% 45% at 50% -5%, rgba(136, 192, 208, 0.11) 0%, rgba(129, 161, 193, 0.03) 50%, transparent 80%),
+        radial-gradient(circle at 85% 15%, rgba(136, 192, 208, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 15% 55%, rgba(129, 161, 193, 0.04) 0%, transparent 35%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin-inline: auto;
+      padding-inline: 32px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 68px;
+      background-color: rgba(46, 52, 64, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(236, 239, 244, 0.12);
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      transition: opacity 0.16s ease;
+    }
+
+    .brand-group:hover { opacity: 0.85; }
+
+    .brand-logo-img {
+      height: 32px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-desktop-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @media (max-width: 860px) {
+      .nav-desktop-links { display: none; }
+    }
+
+    .nav-desktop-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      transition: all 0.16s ease;
+    }
+
+    .nav-desktop-link:hover {
+      color: var(--text);
+      background-color: rgba(236, 239, 244, 0.08);
+    }
+
+    .nav-desktop-link.is-active {
+      color: var(--aqua);
+      background-color: rgba(136, 192, 208, 0.12);
+    }
+
+    /* Main Content */
+    .page-main {
+      flex: 1;
+      max-width: 1200px;
+      margin-inline: auto;
+      padding: 56px 24px 88px;
+      width: 100%;
+    }
+
+    .page-header {
+      text-align: center;
+      max-width: 780px;
+      margin-inline: auto;
+      margin-bottom: 40px;
+    }
+
+    .eyebrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      border-radius: 9999px;
+      background-color: var(--aqua-soft);
+      border: 1px solid rgba(136, 192, 208, 0.3);
+      color: var(--aqua);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .page-subtitle {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* Filter Pills */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 9999px;
+      border: 1px solid rgba(236, 239, 244, 0.14);
+      background-color: var(--surface);
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .filter-btn:hover {
+      color: var(--text);
+      border-color: rgba(136, 192, 208, 0.4);
+    }
+
+    .filter-btn.is-active {
+      background-color: var(--aqua);
+      color: #2e3440;
+      border-color: var(--aqua);
+    }
+
+    /* Section Headings */
+    .section-block {
+      margin-bottom: 64px;
+    }
+
+    .section-block.is-hidden {
+      display: none;
+    }
+
+    .section-header-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(236, 239, 244, 0.1);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .section-subtitle {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Feature Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    @media (max-width: 980px) {
+      .features-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .feature-card {
+      background-color: var(--surface);
+      border: 1px solid rgba(236, 239, 244, 0.1);
+      border-radius: 16px;
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(136, 192, 208, 0.35);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+    }
+
+    .feature-card.is-ai {
+      background: linear-gradient(180deg, rgba(67, 76, 94, 0.9) 0%, var(--surface) 100%);
+      border-color: rgba(136, 192, 208, 0.24);
+    }
+
+    .feature-card.is-hidden {
+      display: none;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .feature-icon {
+      font-size: 24px;
+      line-height: 1;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background-color: rgba(46, 52, 64, 0.6);
+      border: 1px solid rgba(236, 239, 244, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hw-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      white-space: nowrap;
+    }
+
+    .badge-cpu {
+      background-color: var(--nord-green-soft);
+      color: var(--nord-green);
+      border: 1px solid rgba(163, 190, 140, 0.3);
+    }
+
+    .badge-hybrid {
+      background-color: var(--aqua-soft);
+      color: var(--aqua);
+      border: 1px solid rgba(136, 192, 208, 0.3);
+    }
+
+    .badge-gpu {
+      background-color: var(--nord-yellow-soft);
+      color: var(--nord-yellow);
+      border: 1px solid rgba(235, 203, 139, 0.3);
+    }
+
+    .badge-core {
+      background-color: rgba(236, 239, 244, 0.07);
+      color: var(--muted);
+      border: 1px solid rgba(236, 239, 244, 0.14);
+    }
+
+    .feature-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .feature-desc {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .feature-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(236, 239, 244, 0.08);
+    }
+
+    .feature-bullets li {
+      font-size: 0.84rem;
+      color: var(--muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .feature-bullets li::before {
+      content: "→";
+      color: var(--aqua);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .tech-path {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #a8b5c8;
+      background-color: rgba(46, 52, 64, 0.7);
+      border: 1px solid rgba(236, 239, 244, 0.08);
+      border-radius: 8px;
+      padding: 6px 10px;
+      margin-top: 4px;
+      word-break: break-word;
+    }
+
+    /* Callout Banner */
+    .enterprise-callout {
+      margin-top: 24px;
+      padding: 36px 32px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(136, 192, 208, 0.09) 0%, rgba(67, 76, 94, 0.55) 100%);
+      border: 1px solid rgba(136, 192, 208, 0.25);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .enterprise-callout h3 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .enterprise-callout p {
+      color: var(--muted);
+      max-width: 620px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      border-radius: 10px;
+      background-color: var(--aqua);
+      color: #2e3440;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.16s ease, transform 0.12s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--aqua-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      border-radius: 10px;
+      background-color: var(--surface-warm);
+      color: var(--text);
+      border: 1px solid rgba(236, 239, 244, 0.14);
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.16s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--surface-hover);
+    }
+
+    /* Footer */
+    .site-footer {
+      border-top: 1px solid rgba(236, 239, 244, 0.08);
+      padding: 32px 24px;
+      background-color: rgba(46, 52, 64, 0.6);
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .footer-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .credits {
+      font-size: 13px;
+      color: #a8b5c8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="site-nav">
+    <div class="nav-container">
+      <a href="index.html" class="brand-group" title="MeetingMe Home">
+        <img src="logo.png" alt="MeetingMe" class="brand-logo-img" />
+      </a>
+
+      <nav class="nav-desktop-links" aria-label="Navigazione principale">
+        <a href="index.html" class="nav-desktop-link">Home</a>
+        <a href="features.html" class="nav-desktop-link is-active">Funzionalità</a>
+        <a href="pricing.html" class="nav-desktop-link">Piani & Prezzi</a>
+        <a href="contact.html" class="nav-desktop-link">Contatti & Appuntamento</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <header class="page-header">
+      <div class="eyebrow-pill">Architettura Air-Gapped &amp; AI Locale</div>
+      <h1 class="page-title">Tutte le Funzionalità di MeetingMe</h1>
+      <p class="page-subtitle">
+        Dalla gestione delle stanze Scrum su rete locale ai nuovi moduli di Intelligenza Artificiale on-premise:
+        ogni cerimonia, verbale e stima resta al 100% dentro il perimetro aziendale.
+      </p>
+    </header>
+
+    <!-- Category Filters -->
+    <div class="filter-bar" role="tablist" aria-label="Filtra funzionalità">
+      <button type="button" class="filter-btn is-active" data-filter="all">Tutte (12)</button>
+      <button type="button" class="filter-btn" data-filter="core">Core &amp; Sicurezza LAN (3)</button>
+      <button type="button" class="filter-btn" data-filter="scrum">Scrum &amp; Collaborazione (3)</button>
+      <button type="button" class="filter-btn" data-filter="ai">AI Locale · Ollama &amp; Whisper (6)</button>
+    </div>
+
+    <!-- Section 1: Core Software Features -->
+    <section class="section-block" id="core-software">
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-title">Piattaforma Core &amp; Collaborazione LAN</h2>
+          <p class="section-subtitle">Funzionalità native presenti nel software per stanze, cerimonie Scrum, sicurezza e governance.</p>
+        </div>
+      </div>
+
+      <div class="features-grid">
+        <article class="feature-card" data-category="core">
+          <div class="card-top">
+            <div class="feature-icon">🔐</div>
+            <span class="hw-badge badge-core">LAN / Air-Gapped</span>
+          </div>
+          <h3 class="feature-title">Stanze Istantanee, QR &amp; PIN Dinamico</h3>
+          <p class="feature-desc">
+            Creazione immediata di stanze su rete locale con doppia vista Host/Display (Master) e Partecipante (Slave),
+            codice stanza, QR code e PIN di sicurezza a rotazione periodica.
+          </p>
+          <ul class="feature-bullets">
+            <li>Token effimeri per ingresso in stanza e gestione inviti</li>
+            <li>Rate limiter integrato per protezione su subnet locali</li>
+            <li>Rigenerazione manuale istantanea delle credenziali Host</li>
+          </ul>
+          <div class="tech-path">rooms.py · security.py · master.ts · slave.ts</div>
+        </article>
+
+        <article class="feature-card" data-category="core">
+          <div class="card-top">
+            <div class="feature-icon">🎙️</div>
+            <span class="hw-badge badge-core">Real-Time WS</span>
+          </div>
+          <h3 class="feature-title">Speaker Token &amp; Timeboxing Standup</h3>
+          <p class="feature-desc">
+            Turno di parola esclusivo sincronizzato via WebSocket per mantenere il Daily Scrum rapido, ordinato e privo di sovrapposizioni.
+          </p>
+          <ul class="feature-bullets">
+            <li>Richiesta e rilascio turno in 1 click ("Claim Microphone Turn")</li>
+            <li>Timer individuale per intervento con stato visivo sul Master Display</li>
+            <li>Tracciamento automatico della durata della cerimonia</li>
+          </ul>
+          <div class="tech-path">ws.py · master.ts · slave.ts</div>
+        </article>
+
+        <article class="feature-card" data-category="core">
+          <div class="card-top">
+            <div class="feature-icon">🛡️</div>
+            <span class="hw-badge badge-core">Governance</span>
+          </div>
+          <h3 class="feature-title">Console Admin, RBAC, Statistiche &amp; Licenze</h3>
+          <p class="feature-desc">
+            Pannello amministrativo centralizzato per gestire utenti, ruoli personalizzati, calendario meeting e attivazione licenze anche offline.
+          </p>
+          <ul class="feature-bullets">
+            <li>Ruoli e permessi configurabili (RBAC) e richiesta ruolo Presenter</li>
+            <li>Calendario meeting, statistiche d'uso e supporto multilingua (IT/EN/ES)</li>
+            <li>Verifica licenza con cache locale protetta e chiavi perpetue Enterprise</li>
+          </ul>
+          <div class="tech-path">admin.ts · users.py · roles.py · stats.py · license.py</div>
+        </article>
+
+        <article class="feature-card" data-category="scrum">
+          <div class="card-top">
+            <div class="feature-icon">🧭</div>
+            <span class="hw-badge badge-core">Scrum Hub</span>
+          </div>
+          <h3 class="feature-title">Product Vision, Backlog INVEST &amp; Sprint</h3>
+          <p class="feature-desc">
+            Hub Scrum completo per governare Product Vision Board, Definition of Done (DoD), WIP Limit, Backlog con checklist INVEST e cicli Sprint.
+          </p>
+          <ul class="feature-bullets">
+            <li>User Story con Story Points e verifica dei 6 criteri I-N-V-E-S-T</li>
+            <li>Gestione Sprint con committed/completed points e Velocity media</li>
+            <li>Grafico Burndown SVG integrato e registro Impediments</li>
+          </ul>
+          <div class="tech-path">scrum.py · scrum.ts · board.ts</div>
+        </article>
+
+        <article class="feature-card" data-category="scrum">
+          <div class="card-top">
+            <div class="feature-icon">🖥️</div>
+            <span class="hw-badge badge-core">P2P WebRTC</span>
+          </div>
+          <h3 class="feature-title">Screen Share P2P, Board, Chat &amp; File</h3>
+          <p class="feature-desc">
+            Collaborazione completa in stanza senza server esterni: condivisione schermo WebRTC su LAN, Kanban Board live, chat, topic e file sharing.
+          </p>
+          <ul class="feature-bullets">
+            <li>Trasmissione schermo diretta dal Presenter ai partecipanti</li>
+            <li>Task Board di stanza, agenda/topics e documenti collaborativi</li>
+            <li>Chat live e note condivise sincronizzate sul backend locale</li>
+          </ul>
+          <div class="tech-path">screen-share.ts · rooms.py · board.ts</div>
+        </article>
+
+        <article class="feature-card" data-category="scrum">
+          <div class="card-top">
+            <div class="feature-icon">📦</div>
+            <span class="hw-badge badge-core">Export Locale</span>
+          </div>
+          <h3 class="feature-title">Report PDF Stampabile &amp; Pacchetto ZIP</h3>
+          <p class="feature-desc">
+            Esportazione immediata del riepilogo meeting lato client: verbale HTML/PDF in modalità team o individuale e archivio ZIP completo della sessione.
+          </p>
+          <ul class="feature-bullets">
+            <li>Generazione report PDF pronta per stampa e archiviazione interna</li>
+            <li>Sincronizzazione note team dal server prima dell'esportazione</li>
+            <li>Download pacchetto ZIP con tutti gli artefatti del meeting</li>
+          </ul>
+          <div class="tech-path">pdf-summary.ts (openPdfPrintWindow · downloadMeetingZipPackage)</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Section 2: New Local AI Features -->
+    <section class="section-block" id="ai-features">
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-title">Moduli AI Locali (Zero-Leakage)</h2>
+          <p class="section-subtitle">Intelligenza Artificiale eseguita interamente in locale su Ollama e faster-whisper, senza mai inviare dati al cloud.</p>
+        </div>
+      </div>
+
+      <div class="features-grid">
+        <!-- 1. AI PO Coach -->
+        <article class="feature-card is-ai" data-category="ai">
+          <div class="card-top">
+            <div class="feature-icon">🧠</div>
+            <span class="hw-badge badge-cpu">Solo CPU</span>
+          </div>
+          <h3 class="feature-title">1. AI PO Coach ("INVEST &amp; BDD Gatekeeper")</h3>
+          <p class="feature-desc">
+            Mentre il Product Owner scrive una User Story nel backlog, un click su <strong>"Analizza con AI"</strong> avvia la revisione automatica tramite Ollama locale.
+          </p>
+          <ul class="feature-bullets">
+            <li>Verifica i 6 criteri INVEST e segnala story troppo ampie o ambigue</li>
+            <li>Propone come spezzare la story in incrementi più piccoli</li>
+            <li>Genera Criteri di Accettazione BDD (Given / When / Then) + edge case</li>
+          </ul>
+          <div class="tech-path">scrum.py (Ollama endpoint) · scrum.ts (scheda User Story)</div>
+        </article>
+
+        <!-- 2. Verbale Esecutivo & Audit Compliance -->
+        <article class="feature-card is-ai" data-category="ai">
+          <div class="card-top">
+            <div class="feature-icon">📄</div>
+            <span class="hw-badge badge-cpu">Solo CPU</span>
+          </div>
+          <h3 class="feature-title">2. Verbale Esecutivo &amp; Audit Compliance in 1 Click</h3>
+          <p class="feature-desc">
+            A fine Sprint Review o Retrospective, trasforma note, chat, decisioni, Velocity e stato DoD in un documento formale pronto per audit ISO/SOC2 o verbali di commessa.
+          </p>
+          <ul class="feature-bullets">
+            <li>Struttura formale: Executive Summary, Decisioni, Rischi aperti, Action Items</li>
+            <li>Elaborazione del payload JSON via Ollama prima del rendering PDF</li>
+            <li>Ideale per contesti regolamentati (Banche, Difesa, Pubblica Amministrazione)</li>
+          </ul>
+          <div class="tech-path">pdf-summary.ts · stats.py · Ollama</div>
+        </article>
+
+        <!-- 3. Burndown & Scope-Creep Radar -->
+        <article class="feature-card is-ai" data-category="ai">
+          <div class="card-top">
+            <div class="feature-icon">📉</div>
+            <span class="hw-badge badge-hybrid">Solo CPU · Fallback No-AI</span>
+          </div>
+          <h3 class="feature-title">3. Burndown &amp; Scope-Creep Radar (AI Scrum Master)</h3>
+          <p class="feature-desc">
+            Analizza la curva del Burndown, i task fermi in <code>in_progress</code> / <code>Review</code> oltre la media e le story aggiunte a Sprint già avviato.
+          </p>
+          <ul class="feature-bullets">
+            <li>Alert azionabili per lo Scrum Master sui rischi per lo Sprint Goal</li>
+            <li>Motore deterministico delle anomalie: funziona anche senza AI installata</li>
+            <li>Sintesi testuale opzionale generata localmente via Ollama</li>
+          </ul>
+          <div class="tech-path">analytics.py (calcolo deterministico) · Ollama opzionale</div>
+        </article>
+
+        <!-- 4. AI Planning Poker Anchor -->
+        <article class="feature-card is-ai" data-category="ai">
+          <div class="card-top">
+            <div class="feature-icon">🃏</div>
+            <span class="hw-badge badge-cpu">Solo CPU</span>
+          </div>
+          <h3 class="feature-title">4. AI Planning Poker Anchor</h3>
+          <p class="feature-desc">
+            Prima che il team giochi le carte di Fibonacci, confronta la nuova User Story con quelle completate negli Sprint passati per eliminare le stime "a sensazione".
+          </p>
+          <ul class="feature-bullets">
+            <li>Riferimento oggettivo storico (es. Story Points, giorni reali, bug in review)</li>
+            <li>Query di similarità su MongoDB (testo o embeddings locali leggeri)</li>
+            <li>Breve sintesi comparativa generata da Ollama</li>
+          </ul>
+          <div class="tech-path">scrum.py · MongoDB similarity · Ollama</div>
+        </article>
+
+        <!-- 5. Zero-Leakage Meeting Memory -->
+        <article class="feature-card is-ai" data-category="ai">
+          <div class="card-top">
+            <div class="feature-icon">🔍</div>
+            <span class="hw-badge badge-hybrid">CPU media / GPU consigliata</span>
+          </div>
+          <h3 class="feature-title">5. Zero-Leakage Meeting Memory (Chat RAG)</h3>
+          <p class="feature-desc">
+            Barra di ricerca intelligente nello Scrum Hub per interrogare la memoria storica degli Sprint passati interamente offline.
+          </p>
+          <ul class="feature-bullets">
+            <li>Risponde citando il verbale esatto, la stanza e la data della decisione</li>
+            <li>Indicizzazione asincrona di verbali, note e story su MongoDB</li>
+            <li>Ricerca semantica locale con modelli di embedding (es. <code>nomic-embed-text</code>)</li>
+          </ul>
+          <div class="tech-path">MongoDB · Ollama embeddings (nomic-embed-text) · RAG endpoint</div>
+        </article>
+
+        <!-- 6. Ghost Scribe -->
+        <article class="feature-card is-ai" data-category="ai">
+          <div class="card-top">
+            <div class="feature-icon">🎙️</div>
+            <span class="hw-badge badge-gpu">GPU / Apple Silicon</span>
+          </div>
+          <h3 class="feature-title">6. Ghost Scribe (Daily Scrum a Mani Libere)</h3>
+          <p class="feature-desc">
+            Sfrutta lo Speaker Token per sapere esattamente chi sta parlando e quando: trascrive in locale e aggiorna la Board in 1 click.
+          </p>
+          <ul class="feature-bullets">
+            <li>Trascrizione locale in tempo reale con <code>faster-whisper</code></li>
+            <li>Estrazione automatica LLM: Cosa ha fatto / Cosa farà / Impedimenti</li>
+            <li>Proposta immediata di aggiornamento task sulla Board o apertura Impediment</li>
+          </ul>
+          <div class="tech-path">ws.py · master.ts · slave.ts · faster-whisper</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <div class="enterprise-callout">
+      <h3>Vuoi vedere MeetingMe e i moduli AI in azione nella tua rete?</h3>
+      <p>
+        Richiedi una demo tecnica o confronta i piani Community, Professional ed Enterprise Air-Gapped.
+      </p>
+      <div class="cta-row">
+        <a href="pricing.html" class="btn-secondary">Confronta Piani &amp; Prezzi</a>
+        <a href="contact.html" class="btn-primary">📅 Prenota una Demo Diretta</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top-row">
+        <div class="footer-left">
+          <img src="logo.png" alt="MeetingMe Logo" style="height: 24px; width: auto;" />
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+          <a href="features.html" style="color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;">Funzionalità</a>
+          <a href="pricing.html" style="color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;">Prezzi</a>
+          <a href="contact.html" style="color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;">Contatti</a>
+          <a href="https://github.com/apepe11" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 7px; text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 500; transition: color 150ms;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">
+            <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style="display: inline-block; vertical-align: middle;">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            </svg>
+            Powered by <strong style="color: var(--text);">Antonio Pepe</strong>
+          </a>
+        </div>
+      </div>
+
+      <p class="credits" style="margin: 0; padding-top: 10px; border-top: 1px solid rgba(236, 239, 244, 0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+        <span>&copy; 2026 MeetingMe &middot; Tutti i diritti riservati.</span>
+        <span>Email: <a href="mailto:anthonypepe2004@gmail.com" style="color: var(--aqua); text-decoration: none;">anthonypepe2004@gmail.com</a></span>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.feature-card');
+    const coreSection = document.getElementById('core-software');
+    const aiSection = document.getElementById('ai-features');
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        filterBtns.forEach((b) => b.classList.toggle('is-active', b === btn));
+
+        cards.forEach((card) => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.classList.toggle('is-hidden', !match);
+        });
+
+        if (coreSection) {
+          coreSection.classList.toggle('is-hidden', filter === 'ai');
+        }
+        if (aiSection) {
+          aiSection.classList.toggle('is-hidden', filter === 'core' || filter === 'scrum');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
