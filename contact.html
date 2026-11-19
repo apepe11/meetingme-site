@@ -760,42 +760,13 @@
         btnMailtoConfirm.href = mailtoUrl;
       }
 
-      const originalBtnText = submitBtn.innerHTML;
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>⏳ Invio in corso...</span>';
-
-      try {
-        const response = await fetch(`http://${window.location.hostname || '127.0.0.1'}:8000/api/contact`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-          form.style.display = 'none';
-          feedbackBanner.classList.add('is-active');
-          feedbackDetails.innerHTML = `
-            Gentile <strong>${escapeHtml(name)}</strong>, la tua richiesta è stata registrata con successo.<br />
-            Data richiesta: <strong>${escapeHtml(preferredDate)}</strong> (${escapeHtml(preferredTime)}) su <strong>${escapeHtml(platform)}</strong>.<br />
-            Ti contatterò personalmente all'indirizzo <strong>${escapeHtml(email)}</strong> entro poche ore.
-          `;
-        } else {
-          // If server returns error, fallback gracefully to client mailto
-          window.location.href = mailtoUrl;
-        }
-      } catch (err) {
-        // Fallback directly to mailto if offline or standalone
-        console.warn('Backend contact API unavailable, launching mailto client:', err);
-        form.style.display = 'none';
-        feedbackBanner.classList.add('is-active');
-        feedbackDetails.innerHTML = `
-          Grazie <strong>${escapeHtml(name)}</strong>! Clicca qui sotto per finalizzare l'invio della richiesta direttamente dal tuo client di posta.
-        `;
-        window.location.href = mailtoUrl;
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnText;
-      }
+      form.style.display = 'none';
+      feedbackBanner.classList.add('is-active');
+      feedbackDetails.innerHTML = `
+        Gentile <strong>${escapeHtml(name)}</strong>, la tua richiesta per il <strong>${escapeHtml(preferredDate)}</strong> (${escapeHtml(preferredTime)}) su <strong>${escapeHtml(platform)}</strong> è pronta.<br />
+        Completa l'invio dal tuo client email (oppure clicca il pulsante qui sotto) per inviarla direttamente a <strong>anthonypepe2004@gmail.com</strong>.
+      `;
+      window.location.href = mailtoUrl;
     });
 
     function escapeHtml(str) {
