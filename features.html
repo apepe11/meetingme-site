@@ -651,18 +651,18 @@
         <!-- Language Selector -->
         <div class="lang-selector-wrapper">
           <button id="btn-lang-toggle" class="btn-lang-toggle" aria-expanded="false" aria-haspopup="true" aria-label="Cambia Lingua" title="Cambia lingua">
-            <span id="nav-trigger-lang-code">🇮🇹 IT</span>
-            <span class="caret-icon" aria-hidden="true">▾</span>
+            <div id="nav-trigger-lang-code">🇮🇹 IT</div>
+            <div class="caret-icon" aria-hidden="true">▾</div>
           </button>
           <div id="nav-lang-dropdown" class="lang-dropdown-menu" role="menu">
             <button type="button" class="lang-opt-btn" data-lang="it" role="menuitem">
-              <span>🇮🇹</span> <span>Italiano</span>
+              <div>🇮🇹</div> <div>Italiano</div>
             </button>
             <button type="button" class="lang-opt-btn" data-lang="en" role="menuitem">
-              <span>🇬🇧</span> <span>English</span>
+              <div>🇬🇧</div> <div>English</div>
             </button>
             <button type="button" class="lang-opt-btn" data-lang="es" role="menuitem">
-              <span>🇪🇸</span> <span>Español</span>
+              <div>🇪🇸</div> <div>Español</div>
             </button>
           </div>
         </div>
@@ -701,7 +701,6 @@
         <article class="feature-card" data-category="core">
           <div class="card-top">
             <div class="feature-icon">🔐</div>
-            <span class="hw-badge badge-core">LAN / Air-Gapped</span>
           </div>
           <h3 class="feature-title">Stanze Istantanee, QR &amp; PIN Dinamico</h3>
           <p class="feature-desc">
@@ -719,7 +718,6 @@
         <article class="feature-card" data-category="core">
           <div class="card-top">
             <div class="feature-icon">🎙️</div>
-            <span class="hw-badge badge-core">Real-Time WS</span>
           </div>
           <h3 class="feature-title">Speaker Token &amp; Timeboxing Standup</h3>
           <p class="feature-desc">
@@ -736,7 +734,6 @@
         <article class="feature-card" data-category="core">
           <div class="card-top">
             <div class="feature-icon">🛡️</div>
-            <span class="hw-badge badge-core">Governance</span>
           </div>
           <h3 class="feature-title">Console Admin, RBAC, Statistiche &amp; Licenze</h3>
           <p class="feature-desc">
@@ -753,7 +750,6 @@
         <article class="feature-card" data-category="scrum">
           <div class="card-top">
             <div class="feature-icon">🧭</div>
-            <span class="hw-badge badge-core">Scrum Hub</span>
           </div>
           <h3 class="feature-title">Product Vision, Backlog INVEST &amp; Sprint</h3>
           <p class="feature-desc">
@@ -770,7 +766,6 @@
         <article class="feature-card" data-category="scrum">
           <div class="card-top">
             <div class="feature-icon">🖥️</div>
-            <span class="hw-badge badge-core">P2P WebRTC</span>
           </div>
           <h3 class="feature-title">Screen Share P2P, Board, Chat &amp; File</h3>
           <p class="feature-desc">
@@ -787,7 +782,6 @@
         <article class="feature-card" data-category="scrum">
           <div class="card-top">
             <div class="feature-icon">📦</div>
-            <span class="hw-badge badge-core">Export Locale</span>
           </div>
           <h3 class="feature-title">Report PDF Stampabile &amp; Pacchetto ZIP</h3>
           <p class="feature-desc">
@@ -817,7 +811,6 @@
         <article class="feature-card is-ai" data-category="ai">
           <div class="card-top">
             <div class="feature-icon">🧠</div>
-            <span class="hw-badge badge-cpu">Solo CPU</span>
           </div>
           <h3 class="feature-title">1. AI PO Coach ("INVEST &amp; BDD Gatekeeper")</h3>
           <p class="feature-desc">
@@ -835,7 +828,6 @@
         <article class="feature-card is-ai" data-category="ai">
           <div class="card-top">
             <div class="feature-icon">📄</div>
-            <span class="hw-badge badge-cpu">Solo CPU</span>
           </div>
           <h3 class="feature-title">2. Verbale Esecutivo &amp; Audit Compliance in 1 Click</h3>
           <p class="feature-desc">
@@ -853,7 +845,6 @@
         <article class="feature-card is-ai" data-category="ai">
           <div class="card-top">
             <div class="feature-icon">📉</div>
-            <span class="hw-badge badge-hybrid">Solo CPU · Fallback No-AI</span>
           </div>
           <h3 class="feature-title">3. Burndown &amp; Scope-Creep Radar (AI Scrum Master)</h3>
           <p class="feature-desc">
@@ -871,7 +862,6 @@
         <article class="feature-card is-ai" data-category="ai">
           <div class="card-top">
             <div class="feature-icon">🃏</div>
-            <span class="hw-badge badge-cpu">Solo CPU</span>
           </div>
           <h3 class="feature-title">4. AI Planning Poker Anchor</h3>
           <p class="feature-desc">
@@ -889,7 +879,6 @@
         <article class="feature-card is-ai" data-category="ai">
           <div class="card-top">
             <div class="feature-icon">🔍</div>
-            <span class="hw-badge badge-hybrid">CPU media / GPU consigliata</span>
           </div>
           <h3 class="feature-title">5. Zero-Leakage Meeting Memory (Chat RAG)</h3>
           <p class="feature-desc">
@@ -907,7 +896,6 @@
         <article class="feature-card is-ai" data-category="ai">
           <div class="card-top">
             <div class="feature-icon">🎙️</div>
-            <span class="hw-badge badge-gpu">GPU / Apple Silicon</span>
           </div>
           <h3 class="feature-title">6. Ghost Scribe (Daily Scrum a Mani Libere)</h3>
           <p class="feature-desc">
@@ -956,10 +944,10 @@
         </div>
       </div>
 
-      <p class="credits" style="margin: 0; padding-top: 10px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-        <span>&copy; 2026 MeetingMe &middot; Tutti i diritti riservati.</span>
-        <span>Email: <a href="mailto:anthonypepe2004@gmail.com" style="color: var(--aqua); text-decoration: none;">anthonypepe2004@gmail.com</a></span>
-      </p>
+      <div class="credits" style="margin: 0; padding-top: 10px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+        <div>&copy; 2026 MeetingMe &middot; Tutti i diritti riservati.</div>
+        <div>Email: <a href="mailto:anthonypepe2004@gmail.com" style="color: var(--aqua); text-decoration: none;">anthonypepe2004@gmail.com</a></div>
+      </div>
     </div>
   </footer>
 
